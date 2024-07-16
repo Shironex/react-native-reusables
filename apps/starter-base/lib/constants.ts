@@ -16,3 +16,9 @@ export const NAV_THEME = {
     text: 'hsl(0 0% 98%)', // foreground
   },
 };
+
+export const PRICES = {
+  lezak: 30,
+  parasol: 20,
+  parawan: 20,
+};

@@ -10,6 +10,7 @@ import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
 import { ThemeToggle } from '~/components/ThemeToggle';
+import GlobalProvider from '~/lib/context/global-context';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -63,17 +64,41 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-      <Stack>
-        <Stack.Screen
-          name='index'
-          options={{
-            title: 'Starter Base',
-            headerRight: () => <ThemeToggle />,
-          }}
-        />
-      </Stack>
-      <PortalHost />
+      <GlobalProvider>
+
+        <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+        <Stack>
+          <Stack.Screen
+            name='index'
+            options={{
+              title: 'Strona Główna',
+              headerRight: () => <ThemeToggle />,
+            }}
+          />
+          <Stack.Screen
+            name='rent/index'
+            options={{
+              title: 'Wypożyczenie',
+              headerRight: () => <ThemeToggle />,
+            }}
+          />
+          <Stack.Screen
+            name='return/index'
+            options={{
+              title: 'Oddane',
+              headerRight: () => <ThemeToggle />,
+            }}
+          />
+          <Stack.Screen
+            name='summarry/index'
+            options={{
+              title: 'Oddane',
+              headerRight: () => <ThemeToggle />,
+            }}
+          />
+        </Stack>
+        <PortalHost />
+      </GlobalProvider>
     </ThemeProvider>
   );
 }
