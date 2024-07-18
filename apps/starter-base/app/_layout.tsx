@@ -1,15 +1,14 @@
 import '~/global.css';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Theme, ThemeProvider } from '@react-navigation/native';
-import { SplashScreen, Stack } from 'expo-router';
+import { DarkTheme, Theme, ThemeProvider } from '@react-navigation/native';
+import { SplashScreen, Stack, Tabs } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { Platform } from 'react-native';
 import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
-import { ThemeToggle } from '~/components/ThemeToggle';
 import GlobalProvider from '~/lib/context/global-context';
 
 const LIGHT_THEME: Theme = {
@@ -68,6 +67,11 @@ export default function RootLayout() {
 
         <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
         <Stack>
+
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+        {/* <Stack>
           <Stack.Screen
             name='index'
             options={{
@@ -96,7 +100,7 @@ export default function RootLayout() {
               headerRight: () => <ThemeToggle />,
             }}
           />
-        </Stack>
+        </Stack> */}
         <PortalHost />
       </GlobalProvider>
     </ThemeProvider>

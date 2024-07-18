@@ -10,7 +10,7 @@ import { Text } from '~/components/ui/text';
 import { useGlobalContext } from '~/lib/context/global-context';
 
 export default function Screen() {
-    const { lezaki, parasole, parawany, oddaneLezaki, oddaneParasole, oddaneParawany, updateState } = useGlobalContext()
+    const { lezaki, parasole, parawany, updateState } = useGlobalContext()
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} className='p-6 bg-secondary/30'>
@@ -22,22 +22,18 @@ export default function Screen() {
                     <CardContent>
                         <View className='flex-row gap-3 justify-between items-center'>
                             <Button
-                                disabled={oddaneLezaki === 0}
+                                disabled={lezaki === 0}
                                 variant='outline'
                                 className='shadow shadow-foreground/5'
-                                onPress={() => updateState('SET_ODDANE_LEZAKI', 'oddaneLezaki', oddaneLezaki - 1)}
+                                onPress={() => updateState('SET_LEZAKI', 'lezaki', lezaki - 1)}
                             >
                                 <Text>-</Text>
                             </Button>
-                            <View className='flex items-center flex-col gap-3'>
-                                <Text className='native:text-lg'>{oddaneLezaki}</Text>
-                                <Text className='native:text-lg'>Pozostało: {lezaki - oddaneLezaki}</Text>
-                            </View>
+                            <Text className='native:text-lg'>{lezaki}</Text>
                             <Button
-                                disabled={oddaneLezaki === lezaki}
                                 variant='outline'
                                 className='shadow shadow-foreground/5'
-                                onPress={() => updateState('SET_ODDANE_LEZAKI', 'oddaneLezaki', oddaneLezaki + 1)}
+                                onPress={() => updateState('SET_LEZAKI', 'lezaki', lezaki + 1)}
                             >
                                 <Text>+</Text>
                             </Button>
@@ -51,22 +47,18 @@ export default function Screen() {
                     <CardContent>
                         <View className='flex-row gap-3 justify-between items-center'>
                             <Button
-                                disabled={oddaneParasole === 0}
+                                disabled={parasole === 0}
                                 variant='outline'
                                 className='shadow shadow-foreground/5'
-                                onPress={() => updateState('SET_ODDANE_PARASOLE', 'oddaneParasole', oddaneParasole - 1)}
+                                onPress={() => updateState('SET_PARASOLE', 'parasole', parasole - 1)}
                             >
                                 <Text>-</Text>
                             </Button>
-                            <View className='flex items-center flex-col gap-3'>
-                                <Text className='native:text-lg'>{oddaneParasole}</Text>
-                                <Text className='native:text-lg'>Pozostało: {parasole - oddaneParasole}</Text>
-                            </View>
+                            <Text className='native:text-lg'>{parasole}</Text>
                             <Button
-                                disabled={oddaneParasole === parasole}
                                 variant='outline'
                                 className='shadow shadow-foreground/5'
-                                onPress={() => updateState('SET_ODDANE_PARASOLE', 'oddaneParasole', oddaneParasole + 1)}
+                                onPress={() => updateState('SET_PARASOLE', 'parasole', parasole + 1)}
                             >
                                 <Text>+</Text>
                             </Button>
@@ -80,22 +72,18 @@ export default function Screen() {
                     <CardContent>
                         <View className='flex-row gap-3 justify-between items-center'>
                             <Button
-                                disabled={oddaneParawany === 0}
+                                disabled={parawany === 0}
                                 variant='outline'
                                 className='shadow shadow-foreground/5'
-                                onPress={() => updateState('SET_ODDANE_PARAWANY', 'oddaneParawany', oddaneParawany - 1)}
+                                onPress={() => updateState('SET_PARAWANY', 'parawany', parawany - 1)}
                             >
                                 <Text>-</Text>
                             </Button>
-                            <View className='flex items-center flex-col gap-3'>
-                                <Text className='native:text-lg'>{oddaneParawany}</Text>
-                                <Text className='native:text-lg'>Pozostało: {parawany - oddaneParawany}</Text>
-                            </View>
+                            <Text className='native:text-lg'>{parawany}</Text>
                             <Button
-                                disabled={oddaneParawany === parawany}
                                 variant='outline'
                                 className='shadow shadow-foreground/5'
-                                onPress={() => updateState('SET_ODDANE_PARAWANY', 'oddaneParawany', oddaneParawany + 1)}
+                                onPress={() => updateState('SET_PARAWANY', 'parawany', parawany + 1)}
                             >
                                 <Text>+</Text>
                             </Button>

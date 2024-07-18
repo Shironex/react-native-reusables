@@ -1,7 +1,7 @@
 {
-  "name": "@rnr/starter-base",
-  "main": "index.js",
-  "version": "1.0.0",
+  "name": "tecza-lezaki",
+  "main": "expo-router/entry",
+  "version": "1.0.1",
   "scripts": {
     "dev": "expo start -c --ios",
     "dev:web": "expo start -c --web",
@@ -15,6 +15,7 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/native": "^6.0.2",
+    "@rn-primitives/alert-dialog": "~1.0.3",
     "@rn-primitives/avatar": "~1.0.3",
     "@rn-primitives/portal": "~1.0.3",
     "@rn-primitives/progress": "~1.0.3",
