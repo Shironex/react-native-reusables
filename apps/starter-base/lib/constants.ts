@@ -18,7 +18,16 @@ export const NAV_THEME = {
 };
 
 export const PRICES = {
-  lezak: 30,
-  parasol: 20,
-  parawan: 20,
+  lezak: {
+    wynajem: 30,
+    blik: 50,
+  },
+  parasol: {
+    wynajem: 20,
+    blik: 40,
+  },
+  parawan: {
+    wynajem: 20,
+    blik: 40,
+  },
 };

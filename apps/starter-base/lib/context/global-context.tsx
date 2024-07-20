@@ -1,5 +1,6 @@
 'use client'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { P } from '@rn-primitives/progress/dist/types-CGCwFwhZ';
 import {
     ReactNode,
     createContext,
@@ -8,31 +9,48 @@ import {
     useReducer,
 } from 'react'
 
-export type RentType = 'SET_LEZAKI' | 'SET_PARASOLE' | 'SET_PARAWANY' | 'SET_ODDANE_LEZAKI' | 'SET_ODDANE_PARASOLE' | 'SET_ODDANE_PARAWANY';
+export type RentType = 'SET_LEZAKI' | 'SET_PARASOLE' | 'SET_PARAWANY' | 'SET_LEZAKI_ODDANE' | 'SET_PARASOLE_ODDANE' | 'SET_PARAWANY_ODDANE' | 'SET_LEZAKI_BLIK' | 'SET_PARASOLE_BLIK' | 'SET_PARAWANY_BLIK';
 
-export type RentValue = 'lezaki' | 'parasole' | 'parawany' | 'oddaneLezaki' | 'oddaneParasole' | 'oddaneParawany';
+export type RentValue = 'lezaki' | 'parasole' | 'parawany' | 'lezaki_blik' | 'parasole_blik' | 'parawany_blik';
 
 type RentAction =
     | { type: 'SET_LEZAKI'; lezaki: number }
     | { type: 'SET_PARASOLE'; parasole: number }
     | { type: 'SET_PARAWANY'; parawany: number }
-    | { type: 'SET_ODDANE_LEZAKI'; oddaneLezaki: number }
-    | { type: 'SET_ODDANE_PARASOLE'; oddaneParasole: number }
-    | { type: 'SET_ODDANE_PARAWANY'; oddaneParawany: number }
+    | { type: 'SET_LEZAKI_ODDANE'; lezaki: number }
+    | { type: 'SET_PARASOLE_ODDANE'; parasole: number }
+    | { type: 'SET_PARAWANY_ODDANE'; parawany: number }
+    | { type: 'SET_LEZAKI_BLIK'; lezaki: number }
+    | { type: 'SET_PARASOLE_BLIK'; parasole: number }
+    | { type: 'SET_PARAWANY_BLIK'; parawany: number }
     | {
-        type: 'SET_ALL'; lezaki: number; parasole: number; parawany: number, oddaneLezaki: number;
-        oddaneParasole: number;
-        oddaneParawany: number;
+        type: 'SET_ALL'; lezaki: {
+            wynajete: number; oddane: number; blik: number;
+        }; parasole: {
+            wynajete: number; oddane: number; blik: number
+        };
+        parawany: {
+            wynajete: number; oddane: number; blik: number
+        }
     }
     | { type: 'RESET_ALL' }
 
 type GlobalContextType = {
-    lezaki: number;
-    parasole: number;
-    parawany: number;
-    oddaneLezaki: number;
-    oddaneParasole: number;
-    oddaneParawany: number;
+    lezaki: {
+        wynajete: number;
+        oddane: number;
+        blik: number;
+    };
+    parasole: {
+        wynajete: number;
+        oddane: number;
+        blik: number;
+    };
+    parawany: {
+        wynajete: number;
+        oddane: number;
+        blik: number;
+    };
     updateState: (type: RentType, key: RentValue, newValue: number) => Promise<void>
     dispatch: React.Dispatch<RentAction>
     fetchStorage: () => void
@@ -43,65 +61,148 @@ type Props = {
 }
 
 export interface RentState {
-    lezaki: number;
-    parasole: number;
-    parawany: number;
-    oddaneLezaki: number;
-    oddaneParasole: number;
-    oddaneParawany: number;
+    lezaki: {
+        wynajete: number;
+        oddane: number;
+        blik: number;
+    };
+    parasole: {
+        wynajete: number;
+        oddane: number;
+        blik: number;
+    };
+    parawany: {
+        wynajete: number;
+        oddane: number;
+        blik: number;
+    };
 }
 
 function RentReducer(state: RentState, action: RentAction): RentState {
     switch (action.type) {
         case 'SET_LEZAKI':
+            AsyncStorage.setItem('lezaki', action.lezaki.toString());
             return {
                 ...state,
-                lezaki: action.lezaki,
+                lezaki: {
+                    ...state.lezaki,
+                    wynajete: action.lezaki,
+                },
             };
         case 'SET_PARASOLE':
+            AsyncStorage.setItem('parasole', action.parasole.toString());
             return {
                 ...state,
-                parasole: action.parasole,
+                parasole: {
+                    ...state.parasole,
+                    wynajete: action.parasole,
+                },
             };
         case 'SET_PARAWANY':
+            AsyncStorage.setItem('parawany', action.parawany.toString());
             return {
                 ...state,
-                parawany: action.parawany,
+                parawany: {
+                    ...state.parawany,
+                    wynajete: action.parawany
+                },
             };
-        case 'SET_ODDANE_LEZAKI':
+        case 'SET_LEZAKI_ODDANE':
+            AsyncStorage.setItem('lezaki_oddane', action.lezaki.toString());
             return {
                 ...state,
-                oddaneLezaki: action.oddaneLezaki
+                lezaki: {
+                    ...state.lezaki,
+                    oddane: action.lezaki
+                },
             };
-        case 'SET_ODDANE_PARASOLE':
+        case 'SET_PARASOLE_ODDANE':
+            AsyncStorage.setItem('parasole_oddane', action.parasole.toString());
             return {
                 ...state,
-                oddaneParasole: action.oddaneParasole
+                parasole: {
+                    ...state.parasole,
+                    oddane: action.parasole
+                }
             };
-        case 'SET_ODDANE_PARAWANY':
+        case 'SET_PARAWANY_ODDANE':
+            AsyncStorage.setItem('parawany_oddane', action.parawany.toString());
             return {
                 ...state,
-                oddaneParawany: action.oddaneParawany
+                parawany: {
+                    ...state.parawany,
+                    oddane: action.parawany
+                }
             };
+        case 'SET_LEZAKI_BLIK':
+            AsyncStorage.setItem('lezaki_blik', action.lezaki.toString());
+            return {
+                ...state,
+                lezaki: {
+                    ...state.lezaki,
+                    blik: action.lezaki
+                }
+            }
+        case 'SET_PARASOLE_BLIK':
+            AsyncStorage.setItem('parasole_blik', action.parasole.toString());
+            return {
+                ...state,
+                parasole: {
+                    ...state.parasole,
+                    blik: action.parasole
+                }
+            }
+        case 'SET_PARAWANY_BLIK':
+            AsyncStorage.setItem('parawany_blik', action.parawany.toString());
+            return {
+                ...state,
+                parawany: {
+                    ...state.parawany,
+                    blik: action.parawany
+                }
+            }
         case 'SET_ALL':
-            return {
-                lezaki: action.lezaki,
-                parasole: action.parasole,
-                parawany: action.parawany,
-                oddaneLezaki: action.oddaneLezaki,
-                oddaneParasole: action.oddaneParasole,
-                oddaneParawany: action.oddaneParawany
-            };
-        case 'RESET_ALL':
-            AsyncStorage.multiSet([['lezaki', '0'], ['parasole', '0'], ['parawany', '0'], ['oddaneLezaki', '0'], ['oddaneParasole', '0'], ['oddaneParawany', '0']])
 
             return {
-                lezaki: 0,
-                parasole: 0,
-                parawany: 0,
-                oddaneLezaki: 0,
-                oddaneParasole: 0,
-                oddaneParawany: 0
+                lezaki: {
+                    wynajete: action.lezaki.wynajete,
+                    oddane: action.lezaki.oddane,
+                    blik: action.lezaki.blik
+                },
+                parasole: {
+                    wynajete: action.parasole.wynajete,
+                    oddane: action.parasole.oddane,
+                    blik: action.parasole.blik
+                },
+                parawany: {
+                    wynajete: action.parawany.wynajete,
+                    oddane: action.parawany.oddane,
+                    blik: action.parawany.blik
+                },
+            };
+        case 'RESET_ALL':
+            AsyncStorage.multiSet([
+                ['lezaki', '0'], ['parasole', '0'], ['parawany', '0'],
+                ['lezaki_oddane', '0'], ['parasole_oddane', '0'], ['parawany_blik', '0'],
+                ['lezaki_nlik', '0'], ['parasole_nlik', '0'], ['parawany_nlik', '0']
+            ])
+
+            return {
+                lezaki: {
+                    wynajete: 0,
+                    oddane: 0,
+                    blik: 0
+                },
+                parasole: {
+                    wynajete: 0,
+                    oddane: 0,
+                    blik: 0
+                },
+                parawany: {
+                    wynajete: 0,
+                    oddane: 0,
+                    blik: 0
+                },
             };
         default:
             throw new Error('Unknown action');
@@ -109,12 +210,21 @@ function RentReducer(state: RentState, action: RentAction): RentState {
 }
 
 const GlobalContext = createContext<GlobalContextType>({
-    lezaki: 0,
-    parasole: 0,
-    parawany: 0,
-    oddaneLezaki: 0,
-    oddaneParasole: 0,
-    oddaneParawany: 0,
+    lezaki: {
+        wynajete: 0,
+        oddane: 0,
+        blik: 0
+    },
+    parasole: {
+        wynajete: 0,
+        oddane: 0,
+        blik: 0
+    },
+    parawany: {
+        wynajete: 0,
+        oddane: 0,
+        blik: 0
+    },
     updateState: async () => { },
     dispatch: () => { },
     fetchStorage: () => { }
@@ -126,12 +236,21 @@ export const useGlobalContext = () => {
 
 const GlobalProvider = ({ children }: Props) => {
     const [state, dispatch] = useReducer(RentReducer, {
-        lezaki: 0,
-        parasole: 0,
-        parawany: 0,
-        oddaneLezaki: 0,
-        oddaneParasole: 0,
-        oddaneParawany: 0
+        lezaki: {
+            wynajete: 0,
+            oddane: 0,
+            blik: 0
+        },
+        parasole: {
+            wynajete: 0,
+            oddane: 0,
+            blik: 0
+        },
+        parawany: {
+            wynajete: 0,
+            oddane: 0,
+            blik: 0
+        },
     });
 
     useEffect(() => {
@@ -140,35 +259,46 @@ const GlobalProvider = ({ children }: Props) => {
 
     async function fetchStorage() {
         const lezaki = Number(await AsyncStorage.getItem('lezaki') ?? 0);
-        const parasole = Number(await AsyncStorage.getItem('parasole') ?? 0);
-        const parawany = Number(await AsyncStorage.getItem('parawany') ?? 0);
+        const lezaki_oddane = Number(await AsyncStorage.getItem('lezaki_oddane') ?? 0);
+        const lezaki_blik = Number(await AsyncStorage.getItem('lezaki_blik') ?? 0);
 
-        const oddaneLezaki = Number(await AsyncStorage.getItem('oddaneLezaki') ?? 0);
-        const oddaneParasole = Number(await AsyncStorage.getItem('oddaneParasole') ?? 0);
-        const oddaneParawany = Number(await AsyncStorage.getItem('oddaneParawany') ?? 0);
+        const parasole = Number(await AsyncStorage.getItem('parasole') ?? 0);
+        const parasole_oddane = Number(await AsyncStorage.getItem('parasole_oddane') ?? 0)
+        const parasole_blik = Number(await AsyncStorage.getItem('parasole_blik') ?? 0);
+
+        const parawany = Number(await AsyncStorage.getItem('parawany') ?? 0);
+        const parawany_oddane = Number(await AsyncStorage.getItem('parawany_oddane') ?? 0);
+        const parawany_blik = Number(await AsyncStorage.getItem('parawany_blik') ?? 0);
+
 
 
         dispatch({
             type: 'SET_ALL',
-            lezaki,
-            parasole,
-            parawany,
-            oddaneLezaki,
-            oddaneParasole,
-            oddaneParawany
+            lezaki: {
+                wynajete: lezaki,
+                oddane: lezaki_oddane,
+                blik: lezaki_blik
+            },
+            parasole: {
+                wynajete: parasole,
+                oddane: parasole_oddane,
+                blik: parasole_blik
+            },
+            parawany: {
+                wynajete: parawany,
+                oddane: parawany_oddane,
+                blik: parawany_blik
+            }
         });
     }
 
     const handleUpdateState = async (type: RentType, key: RentValue, newValue: number) => {
         if (newValue < 0) return;
 
-        if (state[key] !== newValue) {
-            dispatch({
-                type,
-                [key]: newValue,
-            } as RentAction);
-            await AsyncStorage.setItem(key, newValue.toString());
-        }
+        dispatch({
+            type,
+            [key]: newValue,
+        } as RentAction);
     };
 
     return (
@@ -177,9 +307,6 @@ const GlobalProvider = ({ children }: Props) => {
                 lezaki: state.lezaki,
                 parasole: state.parasole,
                 parawany: state.parawany,
-                oddaneLezaki: state.oddaneLezaki,
-                oddaneParasole: state.oddaneParasole,
-                oddaneParawany: state.oddaneParawany,
                 updateState: handleUpdateState,
                 dispatch,
                 fetchStorage

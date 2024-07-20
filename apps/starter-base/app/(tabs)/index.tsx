@@ -18,9 +18,9 @@ export default function Screen() {
   const { lezaki, parasole, parawany } = useGlobalContext()
 
   useMemo(() => {
-    const lezakiWynik = lezaki * PRICES.lezak;
-    const parasoleWynik = parasole * PRICES.parasol
-    const parawanyWynik = parawany * PRICES.parawan
+    const lezakiWynik = (lezaki.wynajete * PRICES.lezak.wynajem) - (lezaki.blik * PRICES.lezak.blik);
+    const parasoleWynik = (parasole.wynajete * PRICES.parasol.wynajem) - (parasole.blik * PRICES.parasol.blik);
+    const parawanyWynik = (parawany.wynajete * PRICES.parawan.wynajem) - (parawany.blik * PRICES.parawan.blik)
 
     SetSummary(lezakiWynik + parasoleWynik + parawanyWynik)
   }, [lezaki, parasole, parawany])
@@ -46,9 +46,9 @@ export default function Screen() {
         </CardHeader>
         <CardContent>
           <View className='flex flex-col gap-3 justify-between items-center'>
-            <Text>Leżaki: {lezaki}</Text>
-            <Text>Parasole: {parasole}</Text>
-            <Text>Parawany: {parawany}</Text>
+            <Text>Leżaki: {lezaki.wynajete + lezaki.blik}</Text>
+            <Text>Parasole: {parasole.wynajete + parasole.blik}</Text>
+            <Text>Parawany: {parawany.wynajete + parawany.blik}</Text>
 
             <Text>Rozliczenie: {summary.toString()}</Text>
             <Text>Rozmianka na Start: {ROZMIANKA.toString()}</Text>
